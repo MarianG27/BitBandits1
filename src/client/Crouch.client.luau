@@ -1,45 +1,117 @@
-local uis = game:GetService("UserInputService")
-local runService = game:GetService("RunService")
+local NormalWalkSpeed = 16
+local CrouchSpeed = 10
 
-local char = script.Parent
-local humanoid = char:WaitForChild("Humanoid")
+local NormalHipHeight = 2
+local CrouchHipHeight = 0.6
 
--- Încărcăm animațiile o singură dată
-local animIdle = humanoid:LoadAnimation(script:WaitForChild("CrouchIdle"))
-local animMoving = humanoid:LoadAnimation(script:WaitForChild("CrouchMoving"))
+local AnimID = "rbxassetid://122632465973527"
 
-local crouching = false
+local cas = game:GetService("ContextActionService")
+local CKey = Enum.KeyCode.C
 
-uis.InputBegan:Connect(function(inp, processed)
-	if processed then return end
-	
-	if inp.KeyCode == Enum.KeyCode.C then
-		crouching = not crouching
-		
-		if crouching then
-			humanoid.WalkSpeed = 10
-			animIdle:Play()
-		else
-			humanoid.WalkSpeed = 16
-			animIdle:Stop()
-			animMoving:Stop()
-		end
+local player = game:GetService("Players").LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local Humanoid = char:WaitForChild("Humanoid")
+
+local CrouchAnim = Instance.new("Animation")
+CrouchAnim.AnimationId = AnimID
+local CAnim = Humanoid:LoadAnimation(CrouchAnim)
+
+local UIS = game:GetService("UserInputService")
+
+-- verifica daca exista tavan
+local function CanStand()
+
+	local head = char:WaitForChild("Head")
+
+	local rayOrigin = head.Position
+	local rayDirection = Vector3.new(0,3,0)
+
+	local rayParams = RaycastParams.new()
+	rayParams.FilterDescendantsInstances = {char}
+	rayParams.FilterType = Enum.RaycastFilterType.Blacklist
+
+	local result = workspace:Raycast(rayOrigin, rayDirection, rayParams)
+
+	if result then
+		return false
 	end
+
+	return true
+end
+
+-- CROUCH
+UIS.InputBegan:Connect(function(key, gameProcessed)
+
+	if gameProcessed then return end
+
+	if key.KeyCode == CKey then
+
+		Humanoid.WalkSpeed = CrouchSpeed
+		Humanoid.JumpPower = 0
+		Humanoid.JumpHeight = 0
+
+		Humanoid.HipHeight = CrouchHipHeight
+
+		CAnim:Play()
+
+	end
+
 end)
 
-runService.Heartbeat:Connect(function()
-	if crouching then
-		-- Verificăm dacă ne mișcăm pentru a schimba animația
-		if humanoid.MoveDirection.Magnitude > 0 then
-			if not animMoving.IsPlaying then 
-				animMoving:Play() 
-				animIdle:Stop() -- Oprim Idle când mergem
-			end
-		else
-			if animMoving.IsPlaying then 
-				animMoving:Stop() 
-				animIdle:Play() -- Pornim Idle când stăm
-			end
+-- UNCROUCH
+UIS.InputEnded:Connect(function(key, gameProcessed)
+
+	if gameProcessed then return end
+
+	if key.KeyCode == CKey then
+
+		if not CanStand() then
+			return
 		end
+
+		Humanoid.WalkSpeed = NormalWalkSpeed
+		Humanoid.JumpPower = 50
+		Humanoid.JumpHeight = 7.2
+
+		Humanoid.HipHeight = NormalHipHeight
+
+		CAnim:Stop()
+
 	end
+
 end)
+
+---------------------------------------------------
+-- Mobile Button
+
+local function handleContext(name, state)
+
+	if state == Enum.UserInputState.Begin then
+
+		Humanoid.WalkSpeed = CrouchSpeed
+		Humanoid.HipHeight = CrouchHipHeight
+
+		CAnim:Play()
+
+	else
+
+		if not CanStand() then
+			return
+		end
+
+		Humanoid.WalkSpeed = NormalWalkSpeed
+		Humanoid.HipHeight = NormalHipHeight
+
+		CAnim:Stop()
+
+	end
+
+end
+
+cas:BindAction("Crouch", handleContext, true, CKey)
+
+cas:SetPosition("Crouch", UDim2.new(.2,0,.5,0))
+cas:SetTitle("Crouch","Crouch")
+
+cas:GetButton("Crouch").Size = UDim2.new(.3,0,.3,0)

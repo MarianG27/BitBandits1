@@ -1,27 +1,25 @@
- local debounce = false
-local slide = script.Parent.Parent.Parent.Slide
-local clickDetector = script.Parent.ClickDetector
+debounce = false
 
-clickDetector.MouseClick:Connect(function()
-	if debounce then
-		return
+script.Parent.ClickDetector.MouseClick:connect(function()
+	if debounce  == true then return end
+debounce = true
+ for i = 1,3 do
+    script.Parent.CFrame = script.Parent.CFrame + Vector3.new(0,0,0.2)
+     wait()
+end
+wait(2)
+for i = 1,3 do
+    script.Parent.CFrame = script.Parent.CFrame + Vector3.new(0,0,-0.2)
+     wait()
+end
+   for i = 1,15 do
+     script.Parent.Parent.Parent.Slide.CFrame =   script.Parent.Parent.Parent.Slide.CFrame + Vector3.new(-.4,0,0)
+     wait()
 	end
-
-	debounce = true
-
-	-- Slide door open
-	for i = 1, 15 do
-		slide.CFrame = slide.CFrame + Vector3.new(-0.4, 0, 0)
-		wait()
-	end
-
-	wait(3)
-
-	-- Slide door close
-	for i = 1, 15 do
-		slide.CFrame = slide.CFrame + Vector3.new(0.4, 0, 0)
-		wait()
-	end
-
-	debounce = false
+wait(4)
+for i = 1,15 do
+         script.Parent.Parent.Parent.Slide.CFrame =    script.Parent.Parent.Parent.Slide.CFrame + Vector3.new(.4,0,0)
+   wait()
+end
+debounce = false	
 end)
