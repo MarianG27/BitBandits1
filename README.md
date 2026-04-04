@@ -1,4 +1,4 @@
-Adar House - FIICode 2026 Game Dev Challenge
+The Adar House - FIICode 2026 Game Dev Challenge
 Adar House is a 2-player cooperative horror and discovery game built in Roblox Studio for the FIICode 2026 Challenge. The experience begins on an ordinary day in the park that suddenly turns into a nightmare as the world goes dark and the players wake up trapped in the mysterious Adar House.
 The essence of the game lies in interdependence and constant communication. Progression is divided into two distinct phases based on useful curses that provide asymmetric powers. In the first part, exploring the house depends on the player possessing UV Vision, the only one capable of deciphering secrets and clues hidden on the walls by Vincent and Jhon, the previous survivors.
 Once the team manages to escape the house, roles shift dramatically. The first player loses their special sight, while the second player receives a telekinetic force necessary to move heavy objects and clear the path through the forest. Survival against the monster that hunts them depends on how quickly they collaborate to find hiding spots under stones moved through telekinesis.
