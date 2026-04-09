@@ -9,4 +9,7 @@ Once the team manages to escape the house, roles shift dramatically. The first p
 The entire journey is a path of mutual discovery where the narrative is guided by letters, radio messages, and clues left behind by Vincent and Jhon. Players must listen to recordings and find the necessary tools in the labyrinth to open the main door and reach the end of this nightmare.
 
 Team: BitBandits
-https://youtu.be/osQUsxqaMig?feature=shared
+
+Video: https://youtu.be/osQUsxqaMig?feature=shared
+
+Game: https://www.roblox.com/share?code=0b289c8c1654da43976d1d704f7b73a1&type=ExperienceDetails&stamp=1775751976855
